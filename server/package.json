@@ -1,0 +1,7 @@
+{
+  "name": "Subscription_server",
+  "version": "1.0.0",
+  "description": "build subscription node server",
+  "main": "server.js",
+  "license": "MIT"
+}
