@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Container } from 'react-bootstrap';
 export const Articles = () => {
-  return <div>articles</div>;
+  return <Container>articles</Container>;
 };

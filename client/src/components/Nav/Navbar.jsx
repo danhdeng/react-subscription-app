@@ -1,28 +1,27 @@
-import React,{useContext} from 'react';
-import { Navbar, NavItem, NavLink, Spinner} from 'react-bootstrap';
+import React, { useContext } from 'react';
+import { Navbar, NavItem, NavLink, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import {UserContext} from '../../context';
-import {initialFalseState} from '../../constants';
-import {useNavigate} from 'react-router-dom';
+import { UserContext } from '../../context';
+import { initialFalseState } from '../../constants';
+import { useNavigate } from 'react-router-dom';
+import { Loader } from '../Loader/Loader';
 
-const LeftNavContainer= styled.div`
+const LeftNavContainer = styled.div`
   margin-left: auto;
 `;
 
 export const Nav = () => {
   const [state, setState] = useContext(UserContext);
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
-  const logoutHandler=()=> {
-    localStorage.removeItem("react_sub_token");
+  const logoutHandler = () => {
+    localStorage.removeItem('react_sub_token');
     setState(initialFalseState);
-    navigate("/");
-  }
+    navigate('/');
+  };
   console.log(state);
-  if(state.loading) return (<Spinner animation="border" role="status">
-  <span className="visually-hidden">Loading...</span>
-</Spinner>)
+  if (state.loading) return <Loader />;
   return (
     <Navbar>
       <NavItem>
@@ -31,13 +30,13 @@ export const Nav = () => {
         </Link>
       </NavItem>
       {state.data && (
-      <LeftNavContainer>
-        <NavItem>    
-          <NavLink onClick={logoutHandler} className="nav-link">
-            Logout
-          </NavLink>
-        </NavItem>
-	    </LeftNavContainer>
+        <LeftNavContainer>
+          <NavItem>
+            <NavLink onClick={logoutHandler} className="nav-link">
+              Logout
+            </NavLink>
+          </NavItem>
+        </LeftNavContainer>
       )}
     </Navbar>
   );
