@@ -19,7 +19,6 @@ exports.validateUser = [
     .withMessage('Minimum 6 characters required!')
     .bail(),
   (req: any, res: any, next: any) => {
-    console.log('user validator called');
     const errors = validationResult(req);
     if (!errors.isEmpty())
       return res.status(422).json({ errors: errors.array() });
