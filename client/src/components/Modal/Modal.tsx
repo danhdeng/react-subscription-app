@@ -1,8 +1,9 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Modal, Button, InputGroup, FormControl } from 'react-bootstrap';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import {UserContext} from '../../context';
 interface ModalProps {
   text: string;
   variant: 'primary' | 'secondary' | 'danger';
@@ -21,9 +22,10 @@ export const ModalComponent = ({ text, variant, isSignupFlow }: ModalProps) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const navigate = useNavigate();
+  const [state, setState] = useContext(UserContext);
   const submitHanlder = async () => {
     setErrorMsg('');
-    let data;
+    let response;
     if (isSignupFlow) {
       const { data: signUpData } = await axios.post(
         `${process.env.REACT_APP_API_URL}/auth/signup`,
@@ -32,8 +34,8 @@ export const ModalComponent = ({ text, variant, isSignupFlow }: ModalProps) => {
           password,
         }
       );
-      console.log(signUpData);
-      data = signUpData;
+      // console.log(signUpData);
+      response = signUpData;
     } else {
       const { data: loginData } = await axios.post(
         `${process.env.REACT_APP_API_URL}/auth/login`,
@@ -42,16 +44,29 @@ export const ModalComponent = ({ text, variant, isSignupFlow }: ModalProps) => {
           password,
         }
       );
-      console.log(loginData);
-      data = loginData;
+      // console.log(loginData);
+      response = loginData;
     }
-    if (data?.errors.length) {
-      const errMsg = data?.errors.map(function (item: any, i: number) {
+    if (response?.errors.length) {
+      const errMsg = response?.errors.map(function (item: any, i: number) {
         return <li key={i}>{item.msg}</li>;
       });
       setErrorMsg(errMsg);
     }
-    localStorage.setItem('react_sub_token', data?.data?.token);
+    localStorage.setItem('react_sub_token', response?.data?.token);
+    setState({
+      data: {
+        id: response.data.user.id,
+        email: response.data.user.email,
+        stripeCustomerId: response.data.user.stripeCustomerId,
+      },
+      loading: false,
+      error: null,
+    });
+    localStorage.setItem("token", response.data.token);
+    axios.defaults.headers.common[
+      "authorization"
+    ] = `Bearer ${response.data.token}`;
     navigate('/articles');
   };
   return (
