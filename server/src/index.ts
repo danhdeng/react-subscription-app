@@ -1,11 +1,27 @@
-import express from "express";
+import express from 'express';
+import authRouter from './routes/auth';
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
 
-const app=express();
+dotenv.config();
+const app = express();
+app.use(express.json());
+app.use('/auth', authRouter);
 
-app.get("/", (req, res)=>res.send("Hello World!!!!!!"));
+app.get('/', (req, res) => res.send('Hello World!!!!!!'));
 
-const PORT=8098;
+console.log(process.env.MONGODB_URI);
 
-app.listen(PORT, ()=>{
-    console.log(`the server is litsening on port : ${PORT}`);
+mongoose
+  .connect(process.env.MONGODB_URI as string)
+  .then(() => {
+    console.log('connected to MongoDB');
+  })
+  .catch((err) => {
+    console.log(err);
+    throw new Error(err);
+  });
+
+app.listen(process.env.PORT, () => {
+  console.log(`the server is litsening on port : ${process.env.PORT}`);
 });
