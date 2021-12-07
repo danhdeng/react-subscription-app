@@ -99,3 +99,31 @@ exports.login = async (req: any, res: any) => {
     res.json({ success: false, message: err.message });
   }
 };
+
+exports.profile = async (req: any, res: any) => {
+  try {
+    const user = await User.findOne({ email: req.user });
+
+    if (!user) {
+      return res.json({
+        errors: [
+          {
+            msg: 'invalids credentials',
+          },
+        ],
+        data: null,
+      });
+    }
+    return res.json({
+      errors: [],
+      data: {
+        user: {
+          id: user._id,
+          email: user.email,
+        },
+      },
+    });
+  } catch (err: any) {
+    res.json({ success: false, message: err.message });
+  }
+};

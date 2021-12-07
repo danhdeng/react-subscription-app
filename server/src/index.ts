@@ -2,16 +2,21 @@ import express from 'express';
 import authRouter from './routes/auth';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import cors from 'cors';
 
 dotenv.config();
+var corsOptions = {
+  origin: process.env.CLIENT_URL,
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+console.log(corsOptions);
 const app = express();
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use('/auth', authRouter);
-
 app.get('/', (req, res) => res.send('Hello World!!!!!!'));
 
 console.log(process.env.MONGODB_URI);
-
 mongoose
   .connect(process.env.MONGODB_URI as string)
   .then(() => {
