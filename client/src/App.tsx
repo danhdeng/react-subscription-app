@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { LandingPage } from './pages/LandingPage';
 import { Articles } from './pages/Articles';
 import { ProtectedRoute } from './routes/ProtectedRoute';
+import { ArticlesPlan } from './pages/ArticlesPlan';
 
 function App() {
   return (
@@ -15,6 +16,9 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/articles" element={<ProtectedRoute />}>
           <Route path="/articles" element={<Articles />} />
+        </Route>
+        <Route path="/articles-plan" element={<ProtectedRoute />}>
+          <Route path="/articles-plan" element={<ArticlesPlan />} />
         </Route>
       </Routes>
     </BrowserRouter>
