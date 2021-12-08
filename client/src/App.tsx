@@ -17,8 +17,8 @@ function App() {
         <Route path="/articles" element={<ProtectedRoute />}>
           <Route path="/articles" element={<Articles />} />
         </Route>
-        <Route path="/articles-plan" element={<ProtectedRoute />}>
-          <Route path="/articles-plan" element={<ArticlesPlan />} />
+        <Route path="/article-plans" element={<ProtectedRoute />}>
+          <Route path="/article-plans" element={<ArticlesPlan />} />
         </Route>
       </Routes>
     </BrowserRouter>

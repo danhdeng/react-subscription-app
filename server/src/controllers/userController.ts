@@ -4,6 +4,8 @@ import bcrypt from 'bcryptjs';
 import JWT from 'jsonwebtoken';
 import { Request, Response } from 'express';
 import { IGetUserAuthInfoRequest } from '../utils/iGetUserAuthInfoRequest';
+import stripe  from "../utils/stripe";
+
 
 exports.signup = async (req: Request, res: Response) => {
   try {
@@ -23,9 +25,20 @@ exports.signup = async (req: Request, res: Response) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    const customer = await stripe.customers.create(
+      {
+        email,
+      },
+      {
+        apiKey: process.env.STRIPE_SECRET_KEY,
+      }
+    );
+
+
     const newUser = await User.create({
       email: email,
       password: hashedPassword,
+      stripeCustomerId: customer?.id
     });
 
     const token = await JWT.sign(
@@ -43,6 +56,7 @@ exports.signup = async (req: Request, res: Response) => {
         user: {
           id: newUser._id,
           email: newUser.email,
+          stripeCustomerId: newUser.stripeCustomerId,
         },
       },
     });
@@ -94,6 +108,7 @@ exports.login = async (req: Request, res: Response) => {
         user: {
           id: user._id,
           email: user.email,
+          stripeCustomerId: user.stripeCustomerId,
         },
       },
     });

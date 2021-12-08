@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Container, Card } from 'react-bootstrap';
+import { Container, Card, Button } from 'react-bootstrap';
 import styled from 'styled-components';
 
 const CardContainer = styled.div`
@@ -29,11 +29,17 @@ const PriceCircle = styled.div`
   box-shadow: 0.5rem 0.5rem 1rem rgba(19, 20, 19, 0.342);
 `;
 
-const PriceText = styled.span`
+const PriceText = styled.p`
   font-size: 3rem;
   color: white;
   box-shadow: 0.5rem 0.5rem 1rem rgba(19, 20, 19, 0.342);
 `;
+
+const backgroundColors:any={
+  Basic:"rgb(104, 219,104)",
+  Standard:"rgb(185,42,23, 0.835)",
+  Premium: "pink"
+}
 
 export const ArticlesPlan = () => {
   const [prices, setPrices] = useState<any[]>([]);
@@ -57,11 +63,15 @@ export const ArticlesPlan = () => {
             <Card
               style={{ width: '18rem', height: '25rem', marginRight: '2rem' }}
             >
-              <CardHeaderContainer>
+              <CardHeaderContainer style={{ backgroundColor: backgroundColors[price.nickname] }}>
                 <PriceCircle>
                   <PriceText>${price.unit_amount / 100}</PriceText>
                 </PriceCircle>
               </CardHeaderContainer>
+              <Card.Body>
+                  <Card.Title style={{fontSize:"2rem"}}>{price.nickname}</Card.Title>
+                  <Button variant="primary" className="mt-2">Buy Now</Button>
+              </Card.Body>
             </Card>
           );
         })}
