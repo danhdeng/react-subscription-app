@@ -1,9 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import JWT from 'jsonwebtoken';
-
-export interface IGetUserAuthInfoRequest extends Request {
-  user: string // or any other type
-}
+import { IGetUserAuthInfoRequest } from '../utils/iGetUserAuthInfoRequest';
 
 export const checkAuth = async (
   req: IGetUserAuthInfoRequest,

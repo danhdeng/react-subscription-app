@@ -6,5 +6,5 @@ const { checkAuth } = require('../middleware/checkAuth');
 
 const router = express.Router();
 
-router.post('/prices', checkAuth, getPrices);
+router.get('/prices', checkAuth, getPrices);
 export default router;

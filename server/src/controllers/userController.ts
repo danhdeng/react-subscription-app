@@ -3,6 +3,7 @@ const { body, validationResult } = require('express-validator');
 import bcrypt from 'bcryptjs';
 import JWT from 'jsonwebtoken';
 import { Request, Response } from 'express';
+import { IGetUserAuthInfoRequest } from '../utils/iGetUserAuthInfoRequest';
 
 exports.signup = async (req: Request, res: Response) => {
   try {
@@ -101,7 +102,7 @@ exports.login = async (req: Request, res: Response) => {
   }
 };
 
-exports.profile = async (req: Request, res: Response) => {
+exports.profile = async (req: IGetUserAuthInfoRequest, res: Response) => {
   try {
     const user = await User.findOne({ email: req.user });
 
