@@ -2,8 +2,9 @@ import User from '../models/user';
 const { body, validationResult } = require('express-validator');
 import bcrypt from 'bcryptjs';
 import JWT from 'jsonwebtoken';
+import { Request, Response } from 'express';
 
-exports.signup = async (req: any, res: any) => {
+exports.signup = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
@@ -49,7 +50,7 @@ exports.signup = async (req: any, res: any) => {
   }
 };
 
-exports.login = async (req: any, res: any) => {
+exports.login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
@@ -100,7 +101,7 @@ exports.login = async (req: any, res: any) => {
   }
 };
 
-exports.profile = async (req: any, res: any) => {
+exports.profile = async (req: Request, res: Response) => {
   try {
     const user = await User.findOne({ email: req.user });
 

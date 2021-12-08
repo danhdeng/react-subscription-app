@@ -1,5 +1,7 @@
 import express from 'express';
 import authRouter from './routes/auth';
+import subsRouter from './routes/sub';
+
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
@@ -14,6 +16,8 @@ const app = express();
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use('/auth', authRouter);
+app.use('/subs', subsRouter);
+
 app.get('/', (req, res) => res.send('Hello World!!!!!!'));
 
 console.log(process.env.MONGODB_URI);
