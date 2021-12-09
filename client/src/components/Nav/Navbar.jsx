@@ -20,7 +20,7 @@ export const Nav = () => {
     setState(initialFalseState);
     navigate('/');
   };
-  console.log(state);
+  // console.log(state);
   if (state.loading) return <Loader />;
   return (
     <Navbar>

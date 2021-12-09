@@ -4,8 +4,7 @@ import bcrypt from 'bcryptjs';
 import JWT from 'jsonwebtoken';
 import { Request, Response } from 'express';
 import { IGetUserAuthInfoRequest } from '../utils/iGetUserAuthInfoRequest';
-import stripe  from "../utils/stripe";
-
+import stripe from '../utils/stripe';
 
 exports.signup = async (req: Request, res: Response) => {
   try {
@@ -34,11 +33,10 @@ exports.signup = async (req: Request, res: Response) => {
       }
     );
 
-
     const newUser = await User.create({
       email: email,
       password: hashedPassword,
-      stripeCustomerId: customer?.id
+      stripeCustomerId: customer?.id,
     });
 
     const token = await JWT.sign(
@@ -137,6 +135,7 @@ exports.profile = async (req: IGetUserAuthInfoRequest, res: Response) => {
         user: {
           id: user._id,
           email: user.email,
+          stripeCustomerId: user.stripeCustomerId,
         },
       },
     });

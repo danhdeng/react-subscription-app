@@ -15,7 +15,7 @@ const userSchema = new Schema({
   },
   stripeCustomerId: {
     type: String,
-    required: false,
+    required: true,
   },
 });
 

@@ -3,7 +3,7 @@ import React, { useState, useContext } from 'react';
 import { Modal, Button, InputGroup, FormControl } from 'react-bootstrap';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import {UserContext} from '../../context';
+import { UserContext } from '../../context';
 interface ModalProps {
   text: string;
   variant: 'primary' | 'secondary' | 'danger';
@@ -34,7 +34,6 @@ export const ModalComponent = ({ text, variant, isSignupFlow }: ModalProps) => {
           password,
         }
       );
-      // console.log(signUpData);
       response = signUpData;
     } else {
       const { data: loginData } = await axios.post(
@@ -44,7 +43,6 @@ export const ModalComponent = ({ text, variant, isSignupFlow }: ModalProps) => {
           password,
         }
       );
-      // console.log(loginData);
       response = loginData;
     }
     if (response?.errors.length) {
@@ -63,9 +61,9 @@ export const ModalComponent = ({ text, variant, isSignupFlow }: ModalProps) => {
       loading: false,
       error: null,
     });
-    localStorage.setItem("token", response.data.token);
+    localStorage.setItem('token', response.data.token);
     axios.defaults.headers.common[
-      "authorization"
+      'authorization'
     ] = `Bearer ${response.data.token}`;
     navigate('/articles');
   };

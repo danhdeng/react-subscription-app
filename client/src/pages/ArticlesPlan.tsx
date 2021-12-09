@@ -53,7 +53,6 @@ export const ArticlesPlan = () => {
       `${process.env.REACT_APP_API_URL}/subs/prices`
     );
     setPrices(response.data);
-    console.log(response);
   };
 
   const createSession = async (priceId: string) => {

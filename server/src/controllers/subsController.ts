@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import User from '../models/user';
 import stripe from '../utils/stripe';
 import { IGetUserAuthInfoRequest } from '../utils/iGetUserAuthInfoRequest';
+import Article from '../models/article';
 
 exports.getPrices = async (req: Request, res: Response) => {
   const prices = await stripe.prices.list({
@@ -11,7 +12,6 @@ exports.getPrices = async (req: Request, res: Response) => {
 };
 
 exports.addSessions = async (req: IGetUserAuthInfoRequest, res: Response) => {
-  console.log(req.body);
   const user = await User.findOne({ email: req.user });
   const session = await stripe.checkout.sessions.create(
     {
