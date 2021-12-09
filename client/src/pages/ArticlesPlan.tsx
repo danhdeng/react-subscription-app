@@ -35,11 +35,11 @@ const PriceText = styled.p`
   box-shadow: 0.5rem 0.5rem 1rem rgba(19, 20, 19, 0.342);
 `;
 
-const backgroundColors:any={
-  Basic:"rgb(104, 219,104)",
-  Standard:"rgb(185,42,23, 0.835)",
-  Premium: "pink"
-}
+const backgroundColors: any = {
+  Basic: 'rgb(104, 219,104)',
+  Standard: 'rgb(185,42,23, 0.835)',
+  Premium: 'pink',
+};
 
 export const ArticlesPlan = () => {
   const [prices, setPrices] = useState<any[]>([]);
@@ -55,6 +55,16 @@ export const ArticlesPlan = () => {
     setPrices(response.data);
     console.log(response);
   };
+
+  const createSession = async (priceId: string) => {
+    const { data: response } = await axios.post(
+      `${process.env.REACT_APP_API_URL}/subs/session`,
+      {
+        priceId,
+      }
+    );
+    window.location.href = response?.url;
+  };
   return (
     <Container>
       <CardContainer>
@@ -63,14 +73,24 @@ export const ArticlesPlan = () => {
             <Card
               style={{ width: '18rem', height: '25rem', marginRight: '2rem' }}
             >
-              <CardHeaderContainer style={{ backgroundColor: backgroundColors[price.nickname] }}>
+              <CardHeaderContainer
+                style={{ backgroundColor: backgroundColors[price.nickname] }}
+              >
                 <PriceCircle>
                   <PriceText>${price.unit_amount / 100}</PriceText>
                 </PriceCircle>
               </CardHeaderContainer>
               <Card.Body>
-                  <Card.Title style={{fontSize:"2rem"}}>{price.nickname}</Card.Title>
-                  <Button variant="primary" className="mt-2">Buy Now</Button>
+                <Card.Title style={{ fontSize: '2rem' }}>
+                  {price.nickname}
+                </Card.Title>
+                <Button
+                  variant="primary"
+                  className="mt-2"
+                  onClick={() => createSession(price.id)}
+                >
+                  Buy Now
+                </Button>
               </Card.Body>
             </Card>
           );

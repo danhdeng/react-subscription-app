@@ -8,5 +8,5 @@ const router = express.Router();
 
 router.get('/prices', checkAuth, getPrices);
 
-router.post('/sessions', checkAuth, addSessions);
+router.post('/session', checkAuth, addSessions);
 export default router;
